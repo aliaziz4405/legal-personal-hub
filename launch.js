@@ -71,5 +71,9 @@ if (!hasExpress) {
 
 // 4. Launch Application
 console.log(`\n✨ Starting Legal Hub Server...\n`);
-const devServer = spawnSync('npx', ['tsx', 'server.ts'], { stdio: 'inherit', shell: true });
+const devServer = spawnSync('npx', ['tsx', 'server.ts'], {
+  stdio: 'inherit',
+  shell: true,
+  env: process.env,
+});
 process.exit(devServer.status || 0);

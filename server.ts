@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import http from 'http';
 import path from 'path';
 import fs from 'fs';
 import { exec } from 'child_process';
@@ -11,7 +12,7 @@ import {
 } from './src/data/seedData';
 import { AnyLegalResource, AppSettings, CategoryDefinition, DashboardWidget } from './src/types';
 
-const PORT = 3000;
+const PORT = parseInt(process.env.PORT || '3000', 10);
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_JSON_PATH = path.join(DATA_DIR, 'legal_knowledge.json');
 
@@ -300,9 +301,45 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Legal Knowledge Hub running locally at http://0.0.0.0:${PORT}`);
-  });
+  let currentPort = PORT;
+  let hostsToTry = ['0.0.0.0', '127.0.0.1'];
+  let currentHostIndex = 0;
+
+  const tryListen = () => {
+    const host = hostsToTry[currentHostIndex] || '127.0.0.1';
+    const server = http.createServer(app);
+
+    server.on('error', (err: any) => {
+      if (err.code === 'EACCES' || err.code === 'EADDRINUSE') {
+        if (currentHostIndex < hostsToTry.length - 1) {
+          console.warn(`⚠️ Warning: Could not bind to ${host}:${currentPort} (${err.code}). Trying ${hostsToTry[currentHostIndex + 1]}...`);
+          currentHostIndex++;
+          tryListen();
+        } else if (currentPort < PORT + 10) {
+          currentPort++;
+          currentHostIndex = 0;
+          console.warn(`⚠️ Warning: Port occupied/restricted. Trying next port ${currentPort}...`);
+          tryListen();
+        } else {
+          console.error(`❌ Could not bind to any port between ${PORT} and ${currentPort} (${err.code}).`);
+        }
+      } else {
+        console.error('Server startup error:', err);
+      }
+    });
+
+    server.listen(currentPort, host, () => {
+      console.log(`\n==================================================`);
+      console.log(` 🎉 Legal Knowledge Hub is LIVE!`);
+      console.log(` 🌐 Local Access:   http://localhost:${currentPort}`);
+      if (host === '0.0.0.0') {
+        console.log(` 📡 Network Access: http://<YOUR_IP>:${currentPort}`);
+      }
+      console.log(`==================================================\n`);
+    });
+  };
+
+  tryListen();
 }
 
 startServer();
