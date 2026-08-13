@@ -177,6 +177,23 @@ export const GuidelineManualView: React.FC<GuidelineManualViewProps> = ({ langua
                       برای جلوگیری از افزودن فایل‌های سنگین کتب و اسناد حقوقی به داخل خود سورس‌کد پروژه، می‌توانید در بخش <strong>تنظیمات ➔ مسیر فایل‌ها و دسته‌بندی‌ها (Storage Paths & Categories)</strong> مسیر کامل پوشه‌های محلی هارد خود را (مثلاً <code className="font-mono text-pink-600 dark:text-pink-400">D:\LegalBooks</code> در ویندوز یا <code className="font-mono text-pink-600 dark:text-pink-400">/home/user/documents/laws</code> در لینوکس) تعیین کنید. سامانه فایل‌ها را مستقیماً از آن پوشه‌ها خوانده و ذخیره می‌کند.
                     </p>
                   </div>
+
+                  <div className="p-4 bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 rounded-xl space-y-2 text-xs">
+                    <div className="font-bold text-purple-700 dark:text-purple-300 flex items-center gap-1.5">
+                      <span>راهنمای استفاده خودکار و همزمان در دو سیستم‌عامل (Windows & Linux Mint Dual-Boot / Shared Drive):</span>
+                    </div>
+                    <ul className="list-disc list-inside space-y-1.5 text-slate-700 dark:text-slate-300">
+                      <li><strong>راه‌اندازی خودکار دوبله (Automated Launcher):</strong> برای جلوگیری از تداخل <code className="font-mono text-pink-600 dark:text-pink-400">node_modules</code> ویندوز و لینوکس، فایل‌های لانچر هوشمند در ریشه پروژه قرار گرفته‌اند:
+                        <ul className="list-circle list-inside ml-4 mt-1 space-y-0.5 text-slate-600 dark:text-slate-400">
+                          <li>در لینوکس مینت: اجرای اسکپریپت <code className="font-mono text-emerald-600 dark:text-emerald-400">./start-linux.sh</code> یا <code className="font-mono text-emerald-600 dark:text-emerald-400">npm run start:dual</code></li>
+                          <li>در ویندوز: دوبار کلیک روی <code className="font-mono text-emerald-600 dark:text-emerald-400">start-windows.bat</code> یا اجرای <code className="font-mono text-emerald-600 dark:text-emerald-400">npm run start:dual</code></li>
+                        </ul>
+                      </li>
+                      <li><strong>مدیریت خودکار پوشه‌های مجزا:</strong> لانچر به طور خودکار پوشه‌های <code className="font-mono text-pink-600 dark:text-pink-400">node_modules_linux</code> و <code className="font-mono text-pink-600 dark:text-pink-400">node_modules_win</code> را ایجاد کرده و لینک آن را به صورت هوشمند تنظیم می‌کند.</li>
+                      <li><strong>پایگاه داده مشترک (<code className="font-mono text-pink-600 dark:text-pink-400">data/legal_knowledge.json</code>):</strong> هر دو سیستم‌عامل از یک فایل JSON خواندن و نوشتن می‌کنند و داده‌ها کاملاً همگام باقی می‌مانند.</li>
+                      <li><strong>دسترسی شبکه‌ای (LAN Access):</strong> می‌توانید پروژه را روی لینوکس یا ویندوز اجرا کنید و با آدرس IP سیستم (مثلاً <code className="font-mono text-blue-600 dark:text-blue-400">http://192.168.1.50:3000</code>) در سیستم‌عامل دیگر کار کنید.</li>
+                    </ul>
+                  </div>
                 </>
               ) : (
                 <>
@@ -227,6 +244,21 @@ export const GuidelineManualView: React.FC<GuidelineManualViewProps> = ({ langua
                     <p className="text-slate-700 dark:text-slate-300">
                       To keep large PDF books or files out of the git codebase, configure external folder paths under <strong>Settings ➔ Storage Paths & Categories</strong> (e.g. <code className="font-mono text-pink-600 dark:text-pink-400">D:\LegalBooks</code> or <code className="font-mono text-pink-600 dark:text-pink-400">/var/data/books</code>). Files will be accessed directly from those directories.
                     </p>
+                  </div>
+
+                  <div className="p-4 bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 rounded-xl space-y-2 text-xs">
+                    <div className="font-bold text-purple-700 dark:text-purple-300">Automated Dual-OS Setup (Windows & Linux Mint Shared Drive):</div>
+                    <ul className="list-disc list-inside space-y-1.5 text-slate-700 dark:text-slate-300">
+                      <li><strong>Automated Platform Launchers:</strong> To prevent <code className="font-mono text-pink-600 dark:text-pink-400">node_modules</code> native binary conflicts between Windows and Linux Mint, automated launchers are included:
+                        <ul className="list-circle list-inside ml-4 mt-1 space-y-0.5 text-slate-600 dark:text-slate-400">
+                          <li>On Linux Mint: Run <code className="font-mono text-emerald-600 dark:text-emerald-400">./start-linux.sh</code> or <code className="font-mono text-emerald-600 dark:text-emerald-400">npm run start:dual</code></li>
+                          <li>On Windows: Double-click <code className="font-mono text-emerald-600 dark:text-emerald-400">start-windows.bat</code> or run <code className="font-mono text-emerald-600 dark:text-emerald-400">npm run start:dual</code></li>
+                        </ul>
+                      </li>
+                      <li><strong>Automatic Folder Management:</strong> The launcher automatically creates and links separate <code className="font-mono text-pink-600 dark:text-pink-400">node_modules_linux</code> and <code className="font-mono text-pink-600 dark:text-pink-400">node_modules_win</code> directories without interfering with each other.</li>
+                      <li><strong>Shared Database File (<code className="font-mono text-pink-600 dark:text-pink-400">data/legal_knowledge.json</code>):</strong> Both OSs read/write from the exact same JSON database on your shared partition.</li>
+                      <li><strong>LAN Network Access:</strong> You can run the application on Linux or Windows and connect to it over local Wi-Fi/LAN via <code className="font-mono text-blue-600 dark:text-blue-400">http://&lt;HOST_IP&gt;:3000</code>.</li>
+                    </ul>
                   </div>
                 </>
               )}
